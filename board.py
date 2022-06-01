@@ -16,48 +16,31 @@ class Board:
             for row in self.rows:
                 self.board[(col, row)] = Field(col, row)
 
-    # todo
+    #
     def init_pieces(self):
         # white pieces
         for row in [1, 3]:
-            for col in ['A', 'C', 'E', 'G']:
-                self.get_field_by_notation(col, row).set_Piece('w')
-        for col in ['B', 'D', 'F', 'H']:
-            self.get_field_by_notation(col, 2).set_Piece('w')
+            for col in ['a', 'c', 'e', 'g']:
+                self.get_field(col, row).set_Piece('w')
+        for col in ['a', 'd', 'f', 'h']:
+            self.get_field(col, 2).set_Piece('w')
 
         # white pieces
         for row in [6, 8]:
-            for col in ['B', 'D', 'F', 'H']:
-                self.get_field_by_notation(col, row).set_Piece('b')
-        for col in ['A', 'C', 'E', 'G']:
-            self.get_field_by_notation(col, 7).set_Piece('b')
+            for col in ['b', 'd', 'f', 'h']:
+                self.get_field(col, row).set_Piece('b')
+        for col in ['a', 'c', 'e', 'g']:
+            self.get_field(col, 7).set_Piece('b')
 
-    # todo
-    def get_field_plain(self, row, col):
-        return self.board[row][col]
+    def get_field(self, col, row):
+        return self.board[(col, row)]
 
-    # todo
-    def get_field_by_list_index(self, row, col):
-        return self.board[7 - row][col]
 
-    # todo
-    def get_field_by_notation(self, letter, number):
-
-        letter_index = -1
-        try:
-            letter_index = self.notation_dict[letter]
-        except:
-            print("Column letter does not exist!")
-            return -1
-
-        return self.get_field_by_list_index(number - 1, letter_index)
-
-    # todo
     def board_to_string(self):
         s = ""
         for row in self.rows:
             for col in self.cols:
-                s += '|' + self.board[(col, row)].get_Piece()
+                s += '|' + self.get_field(col,row).get_Piece()
             s += '|\n'
 
         return s
