@@ -6,11 +6,11 @@ class Board:
     board = {}
     cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     rows = [1, 2, 3, 4, 5, 6, 7, 8]
-    board_size = 8
 
     def __init__(self):
         # self.init_board()
-        pass
+        self.init_board()
+        self.init_pieces()
 
     def init_board(self):
         for col in self.cols:
