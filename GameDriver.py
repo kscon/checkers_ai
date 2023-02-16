@@ -49,6 +49,7 @@ class GameDriver:
                     return 1
             # checking moves
             # checking move left
+            # todo continue
             elif self.game_board.cols.index(source_col) - self.game_board.cols.index(target_col) == -2:
                 # checking move left forward
                 if target_row - source_row == 2:
