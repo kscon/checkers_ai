@@ -11,3 +11,15 @@ class Piece:
 
     def get_piece_type(self):
         return self.piece_type
+
+    def to_string(self):
+        output = ''
+        if self.player_color == 'white':
+            output = 'w'
+        else:
+            output = 'b'
+
+        if self.piece_type == 'queen':
+            output.upper()
+
+        return output
