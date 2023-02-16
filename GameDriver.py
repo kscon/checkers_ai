@@ -1,8 +1,8 @@
 from Board import Board
 
 
-class Gamedriver:
-    game_board = board.Board()
+class GameDriver:
+    game_board = Board()
     current_player = 0  # white=0, black=1
 
     def print_board(self):
@@ -23,6 +23,7 @@ class Gamedriver:
         if self.is_valid_move(source_col, source_row, target_col, target_row):
             pass
 
+    # todo
     # expects valid source and target field (i.e., on the board), rest is done here
     def is_valid_move(self, source_row, source_col, target_row, target_col):
         piece = self.game_board.get_field(source_col, source_row).get_Piece()
