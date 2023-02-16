@@ -16,5 +16,5 @@ class Field:
     def get_Piece(self):
         return self.piece
 
-    def remove_Piece(self):
+    def reset_Field(self):
         self.piece = None

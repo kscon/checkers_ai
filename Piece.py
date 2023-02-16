@@ -12,6 +12,9 @@ class Piece:
     def get_piece_type(self):
         return self.piece_type
 
+    def upgrade_piece(self):
+        self.piece_type = 'queen'
+
     def to_string(self):
         output = ''
         if self.player_color == 'white':

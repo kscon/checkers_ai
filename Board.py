@@ -56,15 +56,7 @@ class Board:
         target_field = self.get_field(target_col, target_row)
         piece = source_field.get_Piece()
         target_field.set_Piece(piece)
-        source_field.remove_Piece()
-
-    # todo
-    def remove_piece(self, field):
-        pass
-
-    # todo
-    def upgrade_piece(self, piece):
-        pass
+        source_field.reset_Field()
 
 
 b = Board()
