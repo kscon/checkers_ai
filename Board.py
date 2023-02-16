@@ -37,29 +37,27 @@ class Board:
     def get_field(self, col, row):
         return self.board[(col, row)]
 
-    # todo
     def board_to_string(self):
         s = ""
         for row in reversed(self.rows):
             for col in self.cols:
-                piece = self.get_field(col,row).get_Piece()
+                piece = self.get_field(col, row).get_Piece()
                 if piece is not None:
-                    s+= '|' + piece.to_string()
+                    s += '|' + piece.to_string()
                 else:
-                    s+= '| '
+                    s += '| '
             s += '|\n'
 
         return s
 
-    # todo
     # does NOT check for validity
-    def move_piece(self, source_field, target_field):
-        source_col, source_row = source_field
-        target_col, target_row = target_field
-        field = self.get_field(source_col, int(source_row))
-        piece = field.get_Piece()
-        field.set_Piece(' ')
-        self.get_field(target_col, int(target_row)).set_Piece(piece)
+    # expects sanitized input
+    def move_piece(self, source_col, source_row, target_col, target_row):
+        source_field = self.get_field(source_col, source_row)
+        target_field = self.get_field(target_col, target_row)
+        piece = source_field.get_Piece()
+        target_field.set_Piece(piece)
+        source_field.remove_Piece()
 
     # todo
     def remove_piece(self, field):
@@ -69,9 +67,12 @@ class Board:
     def upgrade_piece(self, piece):
         pass
 
+
 b = Board()
 b.init_board()
 b.init_pieces()
+print(b.board_to_string())
+b.move_piece('a',3,'b', 4)
 print(b.board_to_string())
 # print(b.board_to_string())
 # b.move_piece('A3','B4')

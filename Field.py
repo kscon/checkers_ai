@@ -16,5 +16,5 @@ class Field:
     def get_Piece(self):
         return self.piece
 
-    def delete_Piece(self):
+    def remove_Piece(self):
         self.piece = None
