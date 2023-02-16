@@ -19,7 +19,6 @@ class Board:
 
     #
     def init_pieces(self):
-
         # white pieces
         for row in [1, 3]:
             for col in ['a', 'c', 'e', 'g']:
@@ -72,7 +71,7 @@ b = Board()
 b.init_board()
 b.init_pieces()
 print(b.board_to_string())
-b.move_piece('a',3,'b', 4)
+b.move_piece('a', 3, 'b', 4)
 print(b.board_to_string())
 # print(b.board_to_string())
 # b.move_piece('A3','B4')
