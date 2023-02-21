@@ -36,6 +36,9 @@ class Board:
     def get_field(self, col, row):
         return self.board[(col, row)]
 
+    def get_field_by_index(self, col_index, row_index):
+        return self.board[(self.cols[col_index], self.rows[row_index])]
+
     def board_to_string(self):
         s = ""
         for row in reversed(self.rows):
@@ -63,8 +66,8 @@ b = Board()
 b.init_board()
 b.init_pieces()
 print(b.board_to_string())
-b.move_piece('a', 3, 'b', 4)
-print(b.board_to_string())
+"""b.move_piece('a', 3, 'b', 4)
+print(b.board_to_string())"""
 # print(b.board_to_string())
 # b.move_piece('A3','B4')
 # print(b.board_to_string())
