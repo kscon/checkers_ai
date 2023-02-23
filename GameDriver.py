@@ -34,7 +34,7 @@ class GameDriver:
         row_index_source = self.game_board.rows.index(source_row)
         col_index_target = self.game_board.cols.index(target_col)
         row_index_target = self.game_board.rows.index(target_row)
-        checked_piece = ' '
+        checked_field = ' '
 
         play_direction = 1  # 1 for white, -1 for black
         if self.current_player == 1:
@@ -45,8 +45,8 @@ class GameDriver:
         if piece.get_piece_type() == 'pawn':
             # normal moves
             if abs(col_index_source - col_index_target) == 1:
-                target_piece = self.game_board.get_field(target_col, target_row)
-                if target_row - source_row == play_direction and target_piece is None:
+                target_field = self.game_board.get_field(target_col, target_row)
+                if target_row - source_row == play_direction and target_field.get_Piece() is None:
                     return True
                 """# normal move white
                 if target_row - source_row == 1 and current_player == 0 and target_piece is None:
@@ -58,17 +58,17 @@ class GameDriver:
             # checking moves
             elif abs(col_index_source - col_index_target) == 2:
                 # checking move left forward
-                target_piece = self.game_board.get_field(target_col, target_row)
+                target_field = self.game_board.get_field(target_col, target_row)
                 if target_row - source_row == 2 * play_direction and \
-                        target_piece is None:
-                    checked_piece = self.game_board.get_field_by_index(
+                        target_field.get_Piece() is None:
+                    checked_field = self.game_board.get_field_by_index(
                         col_index_source + (col_index_target - col_index_source),
                         row_index_source + play_direction).get_piece()
-                    if checked_piece is None:
+                    if checked_field is None:
                         return False
-                    if checked_piece.get_Piece().player_color == 'white' and current_player == 1:
+                    if checked_field.get_Piece().player_color == 'white' and current_player == 1:
                         return True
-                    elif checked_piece.get_Piece().player_color == 'black' and current_player == 0:
+                    elif checked_field.get_Piece().player_color == 'black' and current_player == 0:
                         return True
             """# checking move left backwards
                         elif target_row - source_row == -2:
