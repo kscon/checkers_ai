@@ -1,5 +1,5 @@
-from Field import Field
-from Piece import Piece
+from core.Field import Field
+from core.Piece import Piece
 
 
 class Board:

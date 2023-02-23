@@ -1,4 +1,4 @@
-import Piece
+from core.Piece import Piece
 
 
 class Field:
