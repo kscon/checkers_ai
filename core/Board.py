@@ -61,6 +61,11 @@ class Board:
         target_field.set_Piece(piece)
         source_field.reset_Field()
 
+    # does NOT check for validity
+    # expects sanitized input
+    def remove_piece(self, target_col, target_row):
+        target_field = self.get_field(target_col, target_row)
+        target_field.reset_Field()
 
 b = Board()
 b.init_board()

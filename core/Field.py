@@ -3,7 +3,7 @@ from core.Piece import Piece
 
 class Field:
     col = ''
-    row = ''
+    row = 0
     piece = None
 
     def __init__(self, col, row):
