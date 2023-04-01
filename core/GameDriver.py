@@ -57,17 +57,13 @@ class GameDriver:
             print('Move ' + source_field + '->' + target_field + ' is not legal!')
             return -1
 
-    # expects valid source and target field (i.e., on the board),
-    # validation of the move itself is done here
-    # returns: (code, field), where field depicts a checked piece or None, and code
-    # -1 for an invalid move
-    # 1 for a vaild move
+
 
 
 gd = GameDriver()
-# gd.game_loop()
+gd.game_loop()
 # gd.print_board()
-gd.make_move('a3', 'b4')
+"""gd.make_move('a3', 'b4')
 gd.print_board()
 gd.make_move('b6', 'a5')
 gd.print_board()
@@ -75,6 +71,6 @@ gd.make_move('c3', 'd4')
 gd.print_board()
 gd.make_move('a5', 'c3')
 gd.print_board()
-gd.make_move('b2', 'c3')
+gd.make_move('b2', 'c3')"""
 
 # print(gd.is_valid_move('a', 3, 'b', 4))
