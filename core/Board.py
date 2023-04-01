@@ -67,6 +67,12 @@ class Board:
         target_field = self.get_field(target_col, target_row)
         target_field.reset_Field()
 
+    # todo: implement queen movement
+    # expects valid source and target field (i.e., on the board),
+    # validation of the move itself is done here
+    # returns: (code, field), where field depicts a checked piece or None, and code
+    # -1 for an invalid move
+    # 1 for a valid move
     def is_valid_move(self, current_player, source_col, source_row, target_col, target_row):
         piece = self.get_field(source_col, source_row).get_Piece()
         col_index_source = self.cols.index(source_col)
