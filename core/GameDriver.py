@@ -31,7 +31,6 @@ class GameDriver:
         else:
             print('Move ' + source_field + '->' + target_field + ' is not legal!')
 
-    # todo: testing
     # expects valid source and target field (i.e., on the board),
     # validation of the move itself is done here
     # returns: (code, field), where field depicts a checked piece or None, and code

@@ -3,7 +3,7 @@ import unittest
 from core.GameDriver import GameDriver
 from core.Board import Board
 
-
+# todo: automate testing
 class GameDriverTestCase(unittest.TestCase):
     def test_move_validity_1(self):
         gd = GameDriver()
