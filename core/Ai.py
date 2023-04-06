@@ -9,7 +9,7 @@ class Ai:
         return move
 
     def enumerate_moves(self, board):
-        list_of_moves = []
+        list_of_moves = []  # in the fashion of = ['a3b4', 'c3b5', ...]
         play_direction = 1
         if self.color == 1:
             play_direction = -1
@@ -23,7 +23,11 @@ class Ai:
                             self.color == 1 and piece.player_color == 'black':
                         if piece.get_piece_type() == 'pawn':
                             # enumerate possible moves
-                            target_col = ord(col) - 1
+                            target_col = chr(ord(col) - 1)
+                            target_row = row + play_direction
+
+                            list_of_moves.append(col + str(row) + target_col + str(target_row))
+        return list_of_moves
 
     def evaluate_moves(self):
         pass

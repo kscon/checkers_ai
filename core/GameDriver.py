@@ -60,8 +60,8 @@ class GameDriver:
 
 
 
-gd = GameDriver()
-gd.game_loop()
+#gd = GameDriver()
+#gd.game_loop()
 # gd.print_board()
 """gd.make_move('a3', 'b4')
 gd.print_board()
