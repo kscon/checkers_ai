@@ -7,8 +7,11 @@ class GameDriver:
     game_board = Board()
     current_player = 0  # white=0, black=1
     game_over = 0  # 0 as long as game is going on, 1 if finished
-    human_player_color = 0
-    ai = Ai()
+    human_player_color = None
+    ai = None
+
+    def __init__(self, human_player_color=0):
+        self.human_player_color = human_player_color
 
     def game_loop(self, players=[]):
         self.prepare_game()
@@ -23,12 +26,13 @@ class GameDriver:
             self.print_board()
 
     def prepare_game(self):
-        print('Play checkers against the AI!')
-        if random.random() > 0.5:
-            self.human_player_color = 1
-            print('you play the black pieces')
-        else:
-            print('you play the white pieces')
+        if self.human_player_color is None:
+            print('Play checkers against the AI!')
+            if random.random() > 0.5:
+                self.human_player_color = 1
+                print('you play the black pieces')
+            else:
+                print('you play the white pieces')
 
     def print_board(self):
         print(self.game_board.board_to_string())
@@ -47,7 +51,7 @@ class GameDriver:
             print('Not a valid field/notation!')
             return -1
 
-        res = self.game_board.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
+        res = self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
         if res[0] == 1:
             self.game_board.move_piece(source_col, source_row, target_col, target_row)
             if res[1] is not None:
@@ -60,8 +64,8 @@ class GameDriver:
 
 
 
-#gd = GameDriver()
-#gd.game_loop()
+# gd = GameDriver()
+# gd.game_loop()
 # gd.print_board()
 """gd.make_move('a3', 'b4')
 gd.print_board()
