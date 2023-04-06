@@ -10,10 +10,10 @@ class GameDriver:
     human_player_color = None
     ai = None
 
-    def __init__(self, human_player_color=0):
+    def __init__(self, human_player_color=0, players=[]):
         self.human_player_color = human_player_color
 
-    def game_loop(self, players=[]):
+    def game_loop(self):
         self.prepare_game()
         while not self.game_over:
             if self.human_player_color == self.current_player:
@@ -33,6 +33,7 @@ class GameDriver:
                 print('you play the black pieces')
             else:
                 print('you play the white pieces')
+        self.ai = Ai(gamedriver=self, color=(self.human_player_color + 1) % 2)
 
     def print_board(self):
         print(self.game_board.board_to_string())
