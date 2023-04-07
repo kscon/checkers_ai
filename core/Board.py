@@ -11,7 +11,7 @@ class Board:
     def __init__(self):
         # self.init_board()
         self.init_board()
-        #self.init_pieces()
+        self.init_pieces()
 
     def init_board(self):
         for col in self.cols:
