@@ -1,18 +1,21 @@
-from core.Board import Board
+# from core.Board import Board
 
 
 class Ai:
     color = 0  # white=0, black=1
     method = 'random'
-    gd = None
+    # gd = None
+    game_board = None
 
-    def __init__(self, gamedriver, color):
-        self.gd = gamedriver
+    def __init__(self, color, game_board):
+        # self.gd = gamedriver
         self.color = color
+        self.game_board = game_board
 
     def get_move(self, board):
+        self.game_board = board
         move = ''
-        self.enumerate_moves(board)
+        self.enumerate_moves()
         self.evaluate_moves()
         return move
 
@@ -22,9 +25,9 @@ class Ai:
         if self.color == 1:
             play_direction = -1
 
-        for col in self.gd.game_board.cols:
-            for row in self.gd.game_board.rows:
-                field = self.gd.game_board.get_field(col, row)
+        for col in self.game_board.cols:
+            for row in self.game_board.rows:
+                field = self.game_board.get_field(col, row)
                 if field.get_Piece() is not None:
                     piece = field.get_Piece()
                     if self.color == 0 and piece.player_color == 'white' or \
@@ -35,8 +38,11 @@ class Ai:
                                 for row_dif in [1, 2]:
                                     target_col = chr(ord(col) - row_dif * col_dif)
                                     target_row = row + row_dif * play_direction
-                                    if 60 <= ord(target_col) <= 68 and 1 <= target_row <= 8:
-                                        is_valid = self.gd.is_valid_move(self.color, col, row, target_col, target_row)
+                                    # if 60 <= ord(target_col) <= 68 and 1 <= target_row <= 8:
+                                    is_valid = self.game_board.try_move(self.color, col + str(row),
+                                                                        target_col + str(target_row))
+                                    if is_valid == 1:
+                                        list_of_moves.append(col + str(row) + target_col + str(target_row))
                             """if ord(col) > 61:
                                 target_col = chr(ord(col) - 1)
                                 target_row = row + play_direction

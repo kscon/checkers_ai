@@ -54,10 +54,10 @@ class Board:
         return s
 
     # interface for trying moves on the board
-    def try_move(self, source_field, target_field):
+    def try_move(self, player_color, source_field, target_field):
         source_col, source_row = source_field
         target_col, target_row = target_field
-        return self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)[0]
+        return self.is_valid_move(player_color, source_col, source_row, target_col, target_row)[0]
         # if res[0] == 1:
         #     self.move_piece(source_col, source_row, target_col, target_row)
         #     if res[1] is not None:
@@ -68,7 +68,10 @@ class Board:
         #     return -1
 
     # interface for making moves on the board
-    def make_move(self, source_field, target_field):
+    def make_move(self, player_color, source_field, target_field):
+        if player_color != self.current_player:
+            print('Player color of move and current player data are not the same!')
+            return -1
         source_col, source_row = source_field
         target_col, target_row = target_field
         res = self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
@@ -111,8 +114,8 @@ class Board:
             assert isinstance(target_col, str) and target_col in self.cols
             assert isinstance(target_row, int) and target_row in self.rows
         except AssertionError:
-            print('Not a valid field/notation!')
-            return -1
+            # print('Not a valid field/notation!')
+            return -1, None
         piece = self.get_field(source_col, source_row).get_Piece()
         col_index_source = self.cols.index(source_col)
         row_index_source = self.rows.index(source_row)

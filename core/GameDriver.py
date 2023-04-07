@@ -32,7 +32,7 @@ class GameDriver:
                 print('you play the black pieces')
             else:
                 print('you play the white pieces')
-        self.ai = Ai(gamedriver=self, color=(self.human_player_color + 1) % 2)
+        self.ai = Ai(color=(self.human_player_color + 1) % 2, game_board=self.game_board)
 
     def print_board(self):
         print(self.game_board.board_to_string())
