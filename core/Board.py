@@ -76,7 +76,7 @@ class Board:
         target_col, target_row = target_field
         res = self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
         if res[0] == 1:
-            self.move_piece(source_col, source_row, target_col, target_row)
+            self.move_piece(source_col, int(source_row), target_col, int(target_row))
             if res[1] is not None:
                 self.remove_piece(res[1].col, res[1].row)
             self.current_player = (self.current_player + 1) % 2
@@ -116,6 +116,11 @@ class Board:
             # print('Not a valid field/notation!')
             return -1, None
         piece = self.get_field(source_col, source_row).get_Piece()
+        if piece is None:
+            return -1, None
+        if not ((piece.player_color == 'white' and current_player == 0) \
+                or (piece.player_color == 'black' and current_player == 1)):
+            return -1, None
         col_index_source = self.cols.index(source_col)
         row_index_source = self.rows.index(source_row)
         col_index_target = self.cols.index(target_col)

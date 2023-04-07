@@ -16,13 +16,14 @@ class GameDriver:
         self.prepare_game()
         while not self.game_over:
             if self.human_player_color == self.game_board.current_player:
+                self.print_board()
                 player_move = input('make a move in the form \'a3b4\'...')
-                while self.game_board.make_move(player_move[:2], player_move[2:]) == -1:
+                while self.game_board.make_move(self.human_player_color, player_move[:2], player_move[2:]) == -1:
                     player_move = input('try again...')
             else:
                 ai_move = self.ai.get_move(self.game_board)
-                self.game_board.make_move(ai_move[:2], ai_move[2:])
-            self.print_board()
+                print('\nAi plays ' + ai_move)
+                self.game_board.make_move(self.ai.color, ai_move[:2], ai_move[2:])
 
     def prepare_game(self):
         if self.human_player_color is None:

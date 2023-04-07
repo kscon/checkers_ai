@@ -1,4 +1,9 @@
 # from core.Board import Board
+import random
+
+
+def evaluate_moves(list_of_moves):
+    return random.choice(list_of_moves)
 
 
 class Ai:
@@ -15,8 +20,8 @@ class Ai:
     def get_move(self, board):
         self.game_board = board
         move = ''
-        self.enumerate_moves()
-        self.evaluate_moves()
+        list_of_moves = self.enumerate_moves()
+        move = evaluate_moves(list_of_moves)
         return move
 
     def enumerate_moves(self):
@@ -58,5 +63,3 @@ class Ai:
 
         return list_of_moves
 
-    def evaluate_moves(self):
-        pass
