@@ -6,6 +6,7 @@ class Board:
     board = {}
     cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     rows = [1, 2, 3, 4, 5, 6, 7, 8]
+    current_player = 0  # white=0, black=1
 
     def __init__(self):
         # self.init_board()
@@ -52,6 +53,34 @@ class Board:
 
         return s
 
+    # interface for trying moves on the board
+    def try_move(self, source_field, target_field):
+        source_col, source_row = source_field
+        target_col, target_row = target_field
+        return self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)[0]
+        # if res[0] == 1:
+        #     self.move_piece(source_col, source_row, target_col, target_row)
+        #     if res[1] is not None:
+        #         self.remove_piece(res[1].col, res[1].row)
+        #     self.current_player = (self.current_player + 1) % 2
+        # else:
+        #     print('Move ' + source_field + '->' + target_field + ' is not legal!')
+        #     return -1
+
+    # interface for making moves on the board
+    def make_move(self, source_field, target_field):
+        source_col, source_row = source_field
+        target_col, target_row = target_field
+        res = self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
+        if res[0] == 1:
+            self.move_piece(source_col, source_row, target_col, target_row)
+            if res[1] is not None:
+                self.remove_piece(res[1].col, res[1].row)
+            self.current_player = (self.current_player + 1) % 2
+        else:
+            print('Move ' + source_field + '->' + target_field + ' is not legal!')
+            return -1
+
     # does NOT check for validity
     # expects sanitized input
     def move_piece(self, source_col, source_row, target_col, target_row):
@@ -77,18 +106,18 @@ class Board:
         try:
             source_row = int(source_row)
             target_row = int(target_row)
-            assert isinstance(source_col, str) and source_col in self.game_board.cols
-            assert isinstance(source_row, int) and source_row in self.game_board.rows
-            assert isinstance(target_col, str) and target_col in self.game_board.cols
-            assert isinstance(target_row, int) and target_row in self.game_board.rows
+            assert isinstance(source_col, str) and source_col in self.cols
+            assert isinstance(source_row, int) and source_row in self.rows
+            assert isinstance(target_col, str) and target_col in self.cols
+            assert isinstance(target_row, int) and target_row in self.rows
         except AssertionError:
             print('Not a valid field/notation!')
             return -1
-        piece = self.game_board.get_field(source_col, source_row).get_Piece()
-        col_index_source = self.game_board.cols.index(source_col)
-        row_index_source = self.game_board.rows.index(source_row)
-        col_index_target = self.game_board.cols.index(target_col)
-        row_index_target = self.game_board.rows.index(target_row)
+        piece = self.get_field(source_col, source_row).get_Piece()
+        col_index_source = self.cols.index(source_col)
+        row_index_source = self.rows.index(source_row)
+        col_index_target = self.cols.index(target_col)
+        row_index_target = self.rows.index(target_row)
         checked_field = ' '
 
         play_direction = 1  # 1 for white, -1 for black
@@ -99,7 +128,7 @@ class Board:
         if piece.get_piece_type() == 'pawn':
             # normal moves
             if abs(col_index_source - col_index_target) == 1:
-                target_field = self.game_board.get_field(target_col, target_row)
+                target_field = self.get_field(target_col, target_row)
                 if target_row - source_row == play_direction and target_field.get_Piece() is None:
                     return 1, None
                 """# normal move white
@@ -112,10 +141,10 @@ class Board:
             # checking moves
             elif abs(col_index_source - col_index_target) == 2:
                 # checking move left forward
-                target_field = self.game_board.get_field(target_col, target_row)
+                target_field = self.get_field(target_col, target_row)
                 if target_row - source_row == 2 * play_direction and \
                         target_field.get_Piece() is None:
-                    checked_field = self.game_board.get_field_by_index(
+                    checked_field = self.get_field_by_index(
                         col_index_source + (col_index_target - col_index_source) - 1,
                         row_index_source + play_direction)
                     if checked_field.get_Piece() is None:

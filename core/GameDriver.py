@@ -5,7 +5,6 @@ import random
 
 class GameDriver:
     game_board = Board()
-    current_player = 0  # white=0, black=1
     game_over = 0  # 0 as long as game is going on, 1 if finished
     human_player_color = None
     ai = None
@@ -16,13 +15,13 @@ class GameDriver:
     def game_loop(self):
         self.prepare_game()
         while not self.game_over:
-            if self.human_player_color == self.current_player:
+            if self.human_player_color == self.game_board.current_player:
                 player_move = input('make a move in the form \'a3b4\'...')
-                while self.make_move(player_move[:2], player_move[2:]) == -1:
+                while self.game_board.make_move(player_move[:2], player_move[2:]) == -1:
                     player_move = input('try again...')
             else:
                 ai_move = self.ai.get_move(self.game_board)
-                self.make_move(ai_move[:2], ai_move[2:])
+                self.game_board.make_move(ai_move[:2], ai_move[2:])
             self.print_board()
 
     def prepare_game(self):
@@ -37,21 +36,6 @@ class GameDriver:
 
     def print_board(self):
         print(self.game_board.board_to_string())
-
-    def make_move(self, source_field, target_field):
-        source_col, source_row = source_field
-        target_col, target_row = target_field
-        res = self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
-        if res[0] == 1:
-            self.game_board.move_piece(source_col, source_row, target_col, target_row)
-            if res[1] is not None:
-                self.game_board.remove_piece(res[1].col, res[1].row)
-            self.current_player = (self.current_player + 1) % 2
-        else:
-            print('Move ' + source_field + '->' + target_field + ' is not legal!')
-            return -1
-
-
 
 
 # gd = GameDriver()
