@@ -9,7 +9,7 @@ class GameDriver:
     human_player_color = None
     ai = None
 
-    def __init__(self, human_player_color=0, players=[]):
+    def __init__(self, human_player_color=None, players=[]):
         self.human_player_color = human_player_color
 
     def game_loop(self):
@@ -32,6 +32,7 @@ class GameDriver:
                 print('you play the black pieces')
             else:
                 print('you play the white pieces')
+                self.human_player_color = 0
         self.ai = Ai(color=(self.human_player_color + 1) % 2, game_board=self.game_board)
 
     def print_board(self):
