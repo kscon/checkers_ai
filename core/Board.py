@@ -11,7 +11,7 @@ class Board:
     def __init__(self):
         # self.init_board()
         self.init_board()
-        self.init_pieces()
+        #self.init_pieces()
 
     def init_board(self):
         for col in self.cols:
@@ -177,10 +177,24 @@ class Board:
                                 if checked_piece == 'b' or checked_piece == 'B':
                                     return True"""
         elif piece.get_piece_type() == 'queen':
+            if self.get_field(target_col, target_row).get_Piece() is not None:
+                return -1, None
+            # normal moves (can be as much free fields as possible)
+            col_jumped = [i for i in range(min(col_index_source + 1, col_index_target + 1),
+                                           max(col_index_source, col_index_target))]
+            row_jumped = [i for i in range(min(row_index_source + 1, row_index_target + 1),
+                                           max(row_index_source, row_index_target))]
+
+            checked_field = None
+            for (c, r) in zip(col_jumped, row_jumped):
+                if abs(c - col_index_target) == 1 and self.get_field_by_index(c, r).get_Piece() is not None:
+                    checked_field = self.get_field_by_index(c, r)
+                elif self.get_field_by_index(c, r).get_Piece() is not None:
+                    return -1, None
+            return 1, checked_field
 
         # move not valid
         return -1, None
-
 
 
 """b = Board()

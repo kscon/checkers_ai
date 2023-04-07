@@ -23,6 +23,6 @@ class Piece:
             output = 'b'
 
         if self.piece_type == 'queen':
-            output.upper()
+            output = output.upper()
 
         return output
