@@ -176,7 +176,9 @@ class Board:
                                     self.game_board.cols[col_index_source - 1], source_row - 1).get_piece()
                                 if checked_piece == 'b' or checked_piece == 'B':
                                     return True"""
-            # move not valid
+        elif piece.get_piece_type() == 'queen':
+
+        # move not valid
         return -1, None
 
 
