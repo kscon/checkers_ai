@@ -99,7 +99,6 @@ class Board:
         target_field = self.get_field(target_col, target_row)
         target_field.reset_Field()
 
-    # todo: implement queen movement
     # expects valid source and target field (i.e., on the board),
     # validation of the move itself is done here
     # returns: (code, field), where field depicts a checked piece or None, and code
@@ -134,12 +133,6 @@ class Board:
                 target_field = self.get_field(target_col, target_row)
                 if target_row - source_row == play_direction and target_field.get_Piece() is None:
                     return 1, None
-                """# normal move white
-                if target_row - source_row == 1 and current_player == 0 and target_piece is None:
-                    return 1
-                # normal move black
-                elif target_row - source_row == -1 and current_player == 1 and target_piece == ' ':
-                    return 1"""
 
             # checking moves
             elif abs(col_index_source - col_index_target) == 2:
@@ -156,26 +149,6 @@ class Board:
                         return 1, checked_field
                     elif checked_field.get_Piece().player_color == 'black' and current_player == 0:
                         return 1, checked_field
-            """# checking move left backwards
-                        elif target_row - source_row == -2:
-                            checked_piece = self.game_board.get_field(
-                                self.game_board.cols[col_index_source + 1], source_row - 1).get_piece()
-                            if checked_piece == 'b' or checked_piece == 'B':
-                                return True
-                        # checking move right
-                        elif self.game_board.cols.index(source_col) - self.game_board.cols.index(target_col) == 2:
-                            # checking move right forward
-                            if target_row - source_row == 2:
-                                checked_piece = self.game_board.get_field(
-                                    self.game_board.cols[col_index_source - 1], source_row + 1).get_piece()
-                                if checked_piece == 'b' or checked_piece == 'B':
-                                    return True
-                            # checking move right backwards
-                            elif target_row - source_row == -2:
-                                checked_piece = self.game_board.get_field(
-                                    self.game_board.cols[col_index_source - 1], source_row - 1).get_piece()
-                                if checked_piece == 'b' or checked_piece == 'B':
-                                    return True"""
         elif piece.get_piece_type() == 'queen':
             if self.get_field(target_col, target_row).get_Piece() is not None:
                 return -1, None

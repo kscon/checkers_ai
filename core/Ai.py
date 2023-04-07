@@ -43,26 +43,10 @@ class Ai:
                                                                         target_col + str(target_row))
                                     if is_valid == 1:
                                         list_of_moves.append(col + str(row) + target_col + str(target_row))
-                            """if ord(col) > 61:
-                                target_col = chr(ord(col) - 1)
-                                target_row = row + play_direction
-                                list_of_moves.append(col + str(row) + target_col + str(target_row))
-                            if ord(col) < 68:
-                                target_col = chr(ord(col) - 1)
-                                target_row = row + play_direction
-                                list_of_moves.append(col + str(row) + target_col + str(target_row))
-                            if ord(col) > 62:
-                                target_col = chr(ord(col) - 2)
-                                target_row = row + 2 * play_direction
-                                list_of_moves.append(col + str(row) + target_col + str(target_row))
-                            if ord(col) > 62:
-                                target_col = chr(ord(col) - 2)
-                                target_row = row + 2 * play_direction
-                                list_of_moves.append(col + str(row) + target_col + str(target_row))"""
                         elif piece.get_piece_type() == 'queen':
-                            for col_dir in [-1,1]:
-                                for row_dir in [-1,1]:
-                                    for distance in range(1,8):
+                            for col_dir in [-1, 1]:
+                                for row_dir in [-1, 1]:
+                                    for distance in range(1, 8):
                                         target_col = chr(ord(col) + col_dir * distance)
                                         target_row = row + row_dir * distance
                                         if target_row < 1 or target_row > 8 or ord(target_col) < 97:
