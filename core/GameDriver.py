@@ -15,6 +15,8 @@ class GameDriver:
     def game_loop(self):
         self.prepare_game()
         while not self.game_over:
+            self.check_upgrade_condition()
+            self.check_winning_condition()
             if self.human_player_color == self.game_board.current_player:
                 self.print_board()
                 player_move = input('make a move in the form \'a3b4\'...')
@@ -38,6 +40,19 @@ class GameDriver:
 
     def print_board(self):
         print(self.game_board.board_to_string())
+
+    def check_winning_condition(self):
+        pass  # todo
+
+    def check_upgrade_condition(self):
+        row_color_zipped = [(1,'black'), (8, 'white')]
+        for (row, color) in row_color_zipped:
+            for col in self.game_board.cols:
+                field = self.game_board.get_field(col, row)
+                if field.get_Piece() is not None:
+                    piece = field.get_Piece()
+                    if piece.get_piece_type() == 'pawn' and piece.player_color == color:
+                        piece.upgrade_piece()
 
 
 # gd = GameDriver()
