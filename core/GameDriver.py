@@ -5,7 +5,8 @@ import random
 
 class GameDriver:
     game_board = Board()
-    game_over = 0  # 0 as long as game is going on, 1 if finished
+    moves = 0
+    # game_over = 0  # 0 as long as game is going on, 1 if finished
     players = {}  # name = player color, .type = human | Ai, .ref = Ai() | None
 
     # player1 = None
@@ -18,13 +19,16 @@ class GameDriver:
 
     def game_loop(self):
         self.prepare_game()
-        while not self.game_over:
+        while True:
+            self.print_board()
             self.check_upgrade_condition()
-            self.check_winning_condition()
+            if self.check_winning_condition():
+                print('Game ended after ' + str(self.moves) + ' moves.')
+                print('GAME OVER!')
+                break
 
             for p in self.players:
                 if p == self.game_board.current_player:
-                    self.print_board()
                     if self.players[p]['type'] == 'human':
                         player_move = input('make a move in the form \'a3b4\'...')
                         while self.game_board.make_move(p, player_move[:2], player_move[2:]) == -1:
@@ -33,6 +37,8 @@ class GameDriver:
                         ai_move = self.players[p]['ref'].get_move(self.game_board)
                         print('\nAi plays ' + ai_move)
                         self.game_board.make_move(p, ai_move[:2], ai_move[2:])
+                    break
+            self.moves +=1
 
     def prepare_game(self):
         while True:
@@ -71,7 +77,26 @@ class GameDriver:
         print(self.game_board.board_to_string())
 
     def check_winning_condition(self):
-        pass  # todo
+        player0_flag = False
+        player1_flag = False
+        for col in self.game_board.cols:
+            for row in self.game_board.rows:
+                field = self.game_board.get_field(col, row)
+                if field.get_Piece() is not None:
+                    piece = field.get_Piece()
+                    if piece.player_color == 'white':
+                        player0_flag = True
+                    elif piece.player_color == 'black':
+                        player1_flag = True
+                if player0_flag and player1_flag:
+                    return False
+        if not player0_flag:
+            print('player 1 wins!')
+        elif not player1_flag:
+            print('player 0 wins!')
+        elif not player1_flag and not player1_flag:
+            assert False
+        return True
 
     def check_upgrade_condition(self):
         row_color_zipped = [(1, 'black'), (8, 'white')]
