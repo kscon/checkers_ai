@@ -146,7 +146,7 @@ class Board:
                 if target_row - source_row == 2 * play_direction and \
                         target_field.get_Piece() is None:
                     checked_field = self.get_field_by_index(
-                        col_index_source + (col_index_target - col_index_source) - 1,
+                        col_index_source + (col_index_target - col_index_source)//2,
                         row_index_source + play_direction)
                     if checked_field.get_Piece() is None:
                         return -1, None
