@@ -86,4 +86,6 @@ class Ai:
                             board_evaluation += 2
                         else:
                             board_evaluation -= 2
+        if self.color == 1:
+            board_evaluation = -1*board_evaluation
         return board_evaluation
