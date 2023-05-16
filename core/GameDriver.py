@@ -58,22 +58,12 @@ class GameDriver:
             self.players[player_color] = {'type': 'human', 'ref': None}
             self.players[(player_color + 1) % 2] = \
                 {'type': 'Ai', 'ref': Ai(color=(player_color + 1) % 2, game_board=self.game_board)}
-            """self.player1_color = 0
-            self.player2_color = Ai(color=(self.player1_color + 1) % 2, game_board=self.game_board)"""
         elif game_mode == 1:
             print('An Ai game!')
             self.players[0] = {'type': 'Ai', 'ref': Ai(color=0, game_board=self.game_board)}
             self.players[1] = {'type': 'Ai', 'ref': Ai(color=1, game_board=self.game_board)}
-            """player1 = 'Ai'
-            player2 = 'Ai'
-            self.player1_color = Ai(color=1, game_board=self.game_board)
-            self.player2_color = Ai(color=2, game_board=self.game_board)"""
         elif game_mode == 2:
             print('It is a human only game!')
-            """player1 = 'human'
-            player2 = 'human'
-            self.player1_color = 0
-            self.player2_color = 1"""
             self.players[0] = {'type': 'human', 'ref': None}
             self.players[1] = {'type': 'human', 'ref': None}
 
@@ -92,19 +82,3 @@ class GameDriver:
                     piece = field.get_Piece()
                     if piece.get_piece_type() == 'pawn' and piece.player_color == color:
                         piece.upgrade_piece()
-
-
-# gd = GameDriver()
-# gd.game_loop()
-# gd.print_board()
-"""gd.make_move('a3', 'b4')
-gd.print_board()
-gd.make_move('b6', 'a5')
-gd.print_board()
-gd.make_move('c3', 'd4')
-gd.print_board()
-gd.make_move('a5', 'c3')
-gd.print_board()
-gd.make_move('b2', 'c3')"""
-
-# print(gd.is_valid_move('a', 3, 'b', 4))
