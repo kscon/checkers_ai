@@ -2,10 +2,6 @@
 import random
 
 
-def evaluate_moves(list_of_moves):
-    return random.choice(list_of_moves)
-
-
 class Ai:
     color = 0  # white=0, black=1
     method = 'random'
@@ -21,7 +17,7 @@ class Ai:
         self.game_board = board
         move = ''
         list_of_moves = self.enumerate_moves()
-        move = evaluate_moves(list_of_moves)
+        move = self.execute_strategy(list_of_moves)
         return move
 
     def enumerate_moves(self):
@@ -63,3 +59,31 @@ class Ai:
 
         return list_of_moves
 
+    def execute_strategy(self, list_of_moves):
+        if self.method == 'random':
+            print(self.minmax_evaluate_board())
+            return random.choice(list_of_moves)
+        elif self.method == 'minmax':
+            pass  # todo
+
+    # core method of minmax to find the best move
+    def minmax_evaluate_board(self):
+        board_evaluation = 0
+        for col in self.game_board.cols:
+            for row in self.game_board.rows:
+                field = self.game_board.get_field(col, row)
+                if field.get_Piece() is not None:
+                    piece = field.get_Piece()
+                    if piece.get_piece_type() == 'pawn':
+                        if self.color == 0 and piece.player_color == 'white' or \
+                                self.color == 1 and piece.player_color == 'black':
+                            board_evaluation += 1
+                        else:
+                            board_evaluation -= 1
+                    elif piece.get_piece_type() == 'queen':
+                        if self.color == 0 and piece.player_color == 'white' or \
+                                self.color == 1 and piece.player_color == 'black':
+                            board_evaluation += 2
+                        else:
+                            board_evaluation -= 2
+        return board_evaluation
