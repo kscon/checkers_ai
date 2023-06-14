@@ -1,6 +1,6 @@
-# from core.Board import Board
+from core.Board import Board
 import random
-
+import copy
 
 class Ai:
     color = 0  # white=0, black=1
@@ -8,13 +8,13 @@ class Ai:
     # gd = None
     game_board = None
 
-    def __init__(self, color, game_board):
+    def __init__(self, color, game_board: Board):
         # self.gd = gamedriver
         self.color = color
-        self.game_board = game_board
+        self.game_board = copy.deepcopy(game_board)
 
-    def get_move(self, board):
-        self.game_board = board
+    def get_move(self, board:Board):
+        self.game_board = copy.deepcopy(board)
         move = ''
         list_of_moves = self.enumerate_moves()
         move = self.execute_strategy(list_of_moves)

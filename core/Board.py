@@ -1,3 +1,5 @@
+import copy
+
 from core.Field import Field
 from core.Piece import Piece
 
@@ -12,6 +14,17 @@ class Board:
         # self.init_board()
         self.init_board()
         self.init_pieces()
+
+
+    # override deepcopy to copy board dict correctly
+    def __deepcopy__(self, memodict={}):
+        new_board = Board()
+        new_board.board = copy.deepcopy(self.board, memodict)
+        new_board.cols = self.cols
+        new_board.rows = self.rows
+        new_board.current_player = self.current_player
+
+        return new_board
 
     def init_board(self):
         for col in self.cols:
