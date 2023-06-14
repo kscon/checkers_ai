@@ -1,6 +1,7 @@
 from core.Board import Board
 from core.Ai import Ai
 import random
+import copy
 
 
 class GameDriver:
@@ -8,7 +9,7 @@ class GameDriver:
     moves = 0
     # game_over = 0  # 0 as long as game is going on, 1 if finished
     players = {}  # name = player color, .type = human | Ai, .ref = Ai() | None
-
+    ai_depth = 5
     # player1 = None
     # player2 = None
     # player1_color = None
@@ -34,7 +35,7 @@ class GameDriver:
                         while self.game_board.make_move(p, player_move[:2], player_move[2:]) == -1:
                             player_move = input('try again...')
                     elif self.players[p]['type'] == 'Ai':
-                        ai_move = self.players[p]['ref'].get_move(self.game_board)
+                        ai_move = self.players[p]['ref'].get_move(copy.deepcopy(self.game_board))
                         print('\nAi plays ' + ai_move)
                         self.game_board.make_move(p, ai_move[:2], ai_move[2:])
                     break
@@ -63,11 +64,11 @@ class GameDriver:
                 player_color = 0
             self.players[player_color] = {'type': 'human', 'ref': None}
             self.players[(player_color + 1) % 2] = \
-                {'type': 'Ai', 'ref': Ai(color=(player_color + 1) % 2, game_board=self.game_board)}
+                {'type': 'Ai', 'ref': Ai(color=(player_color + 1) % 2, game_board=copy.deepcopy(self.game_board), depth=self.ai_depth)}
         elif game_mode == 1:
             print('An Ai game!')
-            self.players[0] = {'type': 'Ai', 'ref': Ai(color=0, game_board=self.game_board)}
-            self.players[1] = {'type': 'Ai', 'ref': Ai(color=1, game_board=self.game_board)}
+            self.players[0] = {'type': 'Ai', 'ref': Ai(color=0, game_board=copy.deepcopy(self.game_board), depth=self.ai_depth)}
+            self.players[1] = {'type': 'Ai', 'ref': Ai(color=1, game_board=copy.deepcopy(self.game_board), depth=self.ai_depth)}
         elif game_mode == 2:
             print('It is a human only game!')
             self.players[0] = {'type': 'human', 'ref': None}

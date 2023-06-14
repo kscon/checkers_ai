@@ -1,5 +1,3 @@
-import copy
-
 from core.Field import Field
 from core.Piece import Piece
 
@@ -14,17 +12,6 @@ class Board:
         # self.init_board()
         self.init_board()
         self.init_pieces()
-
-
-    # override deepcopy to copy board dict correctly
-    def __deepcopy__(self, memodict={}):
-        new_board = Board()
-        new_board.board = copy.deepcopy(self.board, memodict)
-        new_board.cols = self.cols
-        new_board.rows = self.rows
-        new_board.current_player = self.current_player
-
-        return new_board
 
     def init_board(self):
         for col in self.cols:
@@ -131,7 +118,7 @@ class Board:
         piece = self.get_field(source_col, source_row).get_Piece()
         if piece is None:
             return -1, None
-        if not ((piece.player_color == 'white' and current_player == 0) \
+        if not ((piece.player_color == 'white' and current_player == 0)
                 or (piece.player_color == 'black' and current_player == 1)):
             return -1, None
         col_index_source = self.cols.index(source_col)
@@ -159,7 +146,7 @@ class Board:
                 if target_row - source_row == 2 * play_direction and \
                         target_field.get_Piece() is None:
                     checked_field = self.get_field_by_index(
-                        col_index_source + (col_index_target - col_index_source)//2,
+                        col_index_source + (col_index_target - col_index_source) // 2,
                         row_index_source + play_direction)
                     if checked_field.get_Piece() is None:
                         return -1, None

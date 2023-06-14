@@ -1,20 +1,22 @@
 from core.Board import Board
 import random
-import copy
+
 
 class Ai:
     color = 0  # white=0, black=1
     method = 'random'
     # gd = None
     game_board = None
+    depth = None
 
-    def __init__(self, color, game_board: Board):
+    def __init__(self, color, game_board: Board, depth: int = 3):
         # self.gd = gamedriver
         self.color = color
-        self.game_board = copy.deepcopy(game_board)
+        self.game_board = game_board
+        self.depth = depth
 
-    def get_move(self, board:Board):
-        self.game_board = copy.deepcopy(board)
+    def get_move(self, board: Board):
+        self.game_board = board
         move = ''
         list_of_moves = self.enumerate_moves()
         move = self.execute_strategy(list_of_moves)
