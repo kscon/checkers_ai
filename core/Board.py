@@ -1,6 +1,7 @@
 from treelib import Tree, Node
 from core.Field import Field
 from core.Piece import Piece
+from core.Board_State import BoardState
 
 
 class Board:
@@ -20,9 +21,14 @@ class Board:
         for col in self.cols:
             for row in self.rows:
                 self.board[(col, row)] = Field(col, row)
+        self.board_history.create_node('root', 'root', data=BoardState(self.board.copy(), [], 0, {}, 1))
 
+    # adds new node to board_history based on current node/state
+    def add_new_node_to_board_history(self, move, checked_piece=None):
+        # self.board_history.
+        # todo continue here
+        pass
 
-    #
     def init_pieces(self):
         # white pieces
         for row in [1, 3]:
@@ -185,6 +191,7 @@ class Board:
         if piece is not None:
             if piece.get_piece_type() == 'pawn' and piece.player_color == color:
                 piece.upgrade_piece()
+
 
 """b = Board()
 b.init_board()
