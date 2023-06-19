@@ -7,6 +7,7 @@ class Board:
     cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     rows = [1, 2, 3, 4, 5, 6, 7, 8]
     current_player = 0  # white=0, black=1
+    log_of_moves = []
 
     def __init__(self):
         # self.init_board()
@@ -174,6 +175,13 @@ class Board:
         # move not valid
         return -1, None
 
+    # upgrade piece
+    def check_upgrade_piece(self, target_col, target_row, color):
+        target_field = self.get_field(target_col, target_row)
+        piece = target_field.get_Piece()
+        if piece is not None:
+            if piece.get_piece_type() == 'pawn' and piece.player_color == color:
+                piece.upgrade_piece()
 
 """b = Board()
 b.init_board()

@@ -22,7 +22,6 @@ class GameDriver:
         self.prepare_game()
         while True:
             self.print_board()
-            self.check_upgrade_condition()
             if self.check_winning_condition():
                 print('Game ended after ' + str(self.moves) + ' moves.')
                 print('GAME OVER!')
@@ -39,7 +38,8 @@ class GameDriver:
                         print('\nAi plays ' + ai_move)
                         self.game_board.make_move(p, ai_move[:2], ai_move[2:])
                     break
-            self.moves +=1
+            self.check_upgrade_condition()
+            self.moves += 1
 
     def prepare_game(self):
         while True:
@@ -103,8 +103,4 @@ class GameDriver:
         row_color_zipped = [(1, 'black'), (8, 'white')]
         for (row, color) in row_color_zipped:
             for col in self.game_board.cols:
-                field = self.game_board.get_field(col, row)
-                if field.get_Piece() is not None:
-                    piece = field.get_Piece()
-                    if piece.get_piece_type() == 'pawn' and piece.player_color == color:
-                        piece.upgrade_piece()
+                self.game_board.check_upgrade_piece(col, row, color)
