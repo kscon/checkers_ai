@@ -1,5 +1,6 @@
-from core.Board import Board
+from treelib import tree, node
 import random
+from core.Board import Board
 
 
 class Ai:
@@ -67,6 +68,16 @@ class Ai:
             return random.choice(list_of_moves)
         elif self.method == 'minmax':
             pass  # todo
+
+    # minmax algorithm
+    def minmax(self):
+        own_color = self.color
+        move_tree = tree()
+        tree.create_node('root', 'root')
+        for d in range(self.depth):
+            list_of_moves = self.enumerate_moves()
+            for m in list_of_moves:
+                pass  # todo
 
     # core method of minmax to find the best move
     def minmax_evaluate_board(self):
