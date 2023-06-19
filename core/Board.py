@@ -1,3 +1,4 @@
+from treelib import Tree, Node
 from core.Field import Field
 from core.Piece import Piece
 
@@ -8,6 +9,7 @@ class Board:
     rows = [1, 2, 3, 4, 5, 6, 7, 8]
     current_player = 0  # white=0, black=1
     log_of_moves = []
+    board_history = Tree()
 
     def __init__(self):
         # self.init_board()
@@ -18,6 +20,7 @@ class Board:
         for col in self.cols:
             for row in self.rows:
                 self.board[(col, row)] = Field(col, row)
+
 
     #
     def init_pieces(self):
