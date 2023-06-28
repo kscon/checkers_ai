@@ -9,7 +9,7 @@ class GameDriver:
     moves = 0
     # game_over = 0  # 0 as long as game is going on, 1 if finished
     players = {}  # name = player color, .type = human | Ai, .ref = Ai() | None
-    ai_depth = 5
+    ai_depth = 3
     # player1 = None
     # player2 = None
     # player1_color = None

@@ -5,7 +5,7 @@ from core.Board import Board
 
 class Ai:
     color = 0  # white=0, black=1
-    method = 'random'
+    method = 'minmax'
     # gd = None
     game_board = None
     depth = None
@@ -67,17 +67,22 @@ class Ai:
             print(self.minmax_evaluate_board())
             return random.choice(list_of_moves)
         elif self.method == 'minmax':
-            pass  # todo
+            self.minmax()
 
     # minmax algorithm
     def minmax(self):
+        current_node = self.game_board.board_history.leaves()
         own_color = self.color
-        move_tree = tree()
-        tree.create_node('root', 'root')
+
+        # build search tree
         for d in range(self.depth):
             list_of_moves = self.enumerate_moves()
             for m in list_of_moves:
-                pass  # todo
+                self.game_board.make_move(self.color, m[:2], m[2:])
+            self.color = (self.color + 1) % 2  # make Ai play both sides
+
+        # reset color
+        self.color = own_color
 
     # core method of minmax to find the best move
     def minmax_evaluate_board(self):
@@ -100,5 +105,5 @@ class Ai:
                         else:
                             board_evaluation -= 2
         if self.color == 1:
-            board_evaluation = -1*board_evaluation
+            board_evaluation = -1 * board_evaluation
         return board_evaluation
