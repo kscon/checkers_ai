@@ -9,7 +9,8 @@ class Board:
     cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     rows = [1, 2, 3, 4, 5, 6, 7, 8]
     current_player = 0  # white=0, black=1
-    log_of_moves = []
+    # log_of_moves = []
+    current_node_id = 0  #
     board_history = Tree()
 
     def __init__(self):
@@ -21,7 +22,7 @@ class Board:
         for col in self.cols:
             for row in self.rows:
                 self.board[(col, row)] = Field(col, row)
-        self.board_history.create_node('root', 'root', data=BoardState(self.board.copy(), [], 0, {}, 1))
+        self.board_history.create_node(0, 0, data=BoardState(self.board.copy(), [], 0, {}, 0))
 
     # adds new node to board_history based on current node/state
     def add_new_node_to_board_history(self, move, checked_piece=None):
@@ -77,6 +78,10 @@ class Board:
         #     print('Move ' + source_field + '->' + target_field + ' is not legal!')
         #     return -1
 
+    """def add_board_state(self, move, turn, checked_piece={}):
+        current_node = self.board_history.get_node(self.current_node_id)
+        old_turn = current_node.data.board ="""
+
     # interface for making moves on the board
     def make_move(self, player_color, source_field, target_field):
         if player_color != self.current_player:
@@ -87,9 +92,33 @@ class Board:
         res = self.is_valid_move(self.current_player, source_col, source_row, target_col, target_row)
         if res[0] == 1:
             self.move_piece(source_col, int(source_row), target_col, int(target_row))
+
+            # data for new BoardState node in board history tree
+            checked_piece = ()
+
             if res[1] is not None:
+                checked_piece = (
+                self.get_field(res[1].col, res[1].row).get_Piece().to_string(), res[1].col + str(res[1].row))
                 self.remove_piece(res[1].col, res[1].row)
             self.current_player = (self.current_player + 1) % 2
+
+            # data for new BoardState node in board history tree
+            current_node = self.board_history.get_node(self.current_node_id)
+            turn = current_node.data.turn + 1
+            board = self.board.copy()
+            move = source_field + target_field
+            move_log = current_node.data.move_log.copy()
+            move_log.append(move)
+            checked_pieces_dict = current_node.data.checked_pieces.copy()
+            checked_pieces_dict[turn] = checked_piece
+
+            # add new board history node
+            self.current_node_id += 1
+            self.board_history.create_node(self.current_node_id, self.current_node_id,
+                                           parent = current_node.identifier,
+                                           data=BoardState(board, move_log, self.current_player, checked_pieces_dict,
+                                                           turn))
+
         else:
             print('Move ' + source_field + '->' + target_field + ' is not legal!')
             return -1
