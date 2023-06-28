@@ -6,6 +6,7 @@ class BoardState:
     current_player = 0
     checked_pieces = {}  # turn:(piece, field)
     turn = 0
+    valuation = 0
 
     def __init__(self, board, move_log, current_player, checked_pieces, turn):
         self.board = board
@@ -13,3 +14,6 @@ class BoardState:
         self.current_player = current_player
         self.checked_pieces = checked_pieces
         self.turn = turn
+
+    """def set_valuation(self,val):
+        self.valuation = val"""

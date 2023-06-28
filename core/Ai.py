@@ -71,15 +71,32 @@ class Ai:
 
     # minmax algorithm
     def minmax(self):
-        current_node = self.game_board.board_history.leaves()
+        start_node = self.game_board.board_history.leaves()[0]
+        # start_level = self.game_board.board_history.level(start_node.identifier)
         own_color = self.color
 
         # build search tree
         for d in range(self.depth):
-            list_of_moves = self.enumerate_moves()
-            for m in list_of_moves:
-                self.game_board.make_move(self.color, m[:2], m[2:])
+            leaves = self.game_board.board_history.leaves(nid=start_node.identifier)
+            for ln in leaves:
+                ln_identifier = ln.identifier
+                self.game_board.reset_board_to_board_history_node(ln_identifier)
+
+                list_of_moves = self.enumerate_moves()
+                for move in list_of_moves:
+                    self.game_board.reset_board_to_board_history_node(ln_identifier)
+                    self.game_board.make_move(self.color, move[:2], move[2:])
+            self.game_board.board_history.show()
             self.color = (self.color + 1) % 2  # make Ai play both sides
+
+        # traverse tree to find best move
+        for d in sorted(range(self.depth), reverse=True):
+            nodes = [n for n in self.game_board.board_history.all_nodes() if self.game_board.board_history.level(n.identifier) == d]
+            if d == self.depth - 1:
+                for n in nodes:
+                    self.game_board.reset_board_to_board_history_node(n.identifier)
+                    n.data.valuation = self.minmax_evaluate_board()
+                    # todo: cont
 
         # reset color
         self.color = own_color

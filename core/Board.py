@@ -1,4 +1,5 @@
 from treelib import Tree, Node
+import copy
 from core.Field import Field
 from core.Piece import Piece
 from core.Board_State import BoardState
@@ -17,18 +18,12 @@ class Board:
         # self.init_board()
         self.init_board()
         self.init_pieces()
+        self.board_history.create_node(0, 0, data=BoardState(copy.deepcopy(self.board), [], 0, {}, 0))
 
     def init_board(self):
         for col in self.cols:
             for row in self.rows:
                 self.board[(col, row)] = Field(col, row)
-        self.board_history.create_node(0, 0, data=BoardState(self.board.copy(), [], 0, {}, 0))
-
-    # adds new node to board_history based on current node/state
-    def add_new_node_to_board_history(self, move, checked_piece=None):
-        # self.board_history.
-        # todo continue here
-        pass
 
     def init_pieces(self):
         # white pieces
@@ -64,6 +59,14 @@ class Board:
 
         return s
 
+    # set board to a state from board_history
+    # this method does not change the board_history
+    def reset_board_to_board_history_node(self, board_history_node_id):
+        node = self.board_history.get_node(board_history_node_id)
+        self.board = copy.deepcopy(node.data.board)
+        self.current_node_id = board_history_node_id
+        self.current_player = node.data.current_player
+
     # interface for trying moves on the board
     def try_move(self, player_color, source_field, target_field):
         source_col, source_row = source_field
@@ -77,10 +80,6 @@ class Board:
         # else:
         #     print('Move ' + source_field + '->' + target_field + ' is not legal!')
         #     return -1
-
-    """def add_board_state(self, move, turn, checked_piece={}):
-        current_node = self.board_history.get_node(self.current_node_id)
-        old_turn = current_node.data.board ="""
 
     # interface for making moves on the board
     def make_move(self, player_color, source_field, target_field):
@@ -105,7 +104,7 @@ class Board:
             # data for new BoardState node in board history tree
             current_node = self.board_history.get_node(self.current_node_id)
             turn = current_node.data.turn + 1
-            board = self.board.copy()
+            board = copy.deepcopy(self.board)
             move = source_field + target_field
             move_log = current_node.data.move_log.copy()
             move_log.append(move)
@@ -114,6 +113,8 @@ class Board:
 
             # add new board history node
             self.current_node_id += 1
+            while self.board_history.get_node(self.current_node_id) is not None:
+                self.current_node_id += 1
             self.board_history.create_node(self.current_node_id, self.current_node_id,
                                            parent = current_node.identifier,
                                            data=BoardState(board, move_log, self.current_player, checked_pieces_dict,
