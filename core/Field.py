@@ -18,3 +18,9 @@ class Field:
 
     def reset_Field(self):
         self.piece = None
+
+    def get_col(self):
+        return self.col
+
+    def get_row(self):
+        return self.row
