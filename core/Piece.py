@@ -12,6 +12,12 @@ class Piece:
     def get_piece_type(self):
         return self.piece_type
 
+    def set_player_color(self, player_color):
+        self.player_color = player_color
+
+    def get_player_color(self):
+        return self.player_color
+
     def upgrade_piece(self):
         self.piece_type = 'queen'
 
