@@ -4,7 +4,6 @@ from core.Field import Field
 from core.Piece import Piece
 from core.Board_State import BoardState
 
-
 class Board:
     board = {}
     cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -12,12 +11,13 @@ class Board:
     current_player = 0  # white=0, black=1
     # log_of_moves = []
     current_node_id = 0  #
-    board_history = Tree()
+    board_history = None
 
-    def __init__(self):
-        # self.init_board()
+
+    def __init__(self, scenario=None):
         self.init_board()
-        self.init_pieces()
+        self.init_pieces(scenario)
+        self.board_history = Tree()
         self.board_history.create_node(0, 0, data=BoardState(copy.deepcopy(self.board), [], 0, {}, 0))
 
     def init_board(self):
@@ -25,20 +25,28 @@ class Board:
             for row in self.rows:
                 self.board[(col, row)] = Field(col, row)
 
-    def init_pieces(self):
-        # white pieces
-        for row in [1, 3]:
-            for col in ['a', 'c', 'e', 'g']:
-                self.get_field(col, row).set_Piece(Piece('white', 'pawn'))
-        for col in ['b', 'd', 'f', 'h']:
-            self.get_field(col, 2).set_Piece(Piece('white', 'pawn'))
-
-        # black pieces
-        for row in [6, 8]:
+    def init_pieces(self, scenario):
+        if scenario is None:
+            # white pieces
+            for row in [1, 3]:
+                for col in ['a', 'c', 'e', 'g']:
+                    self.get_field(col, row).set_Piece(Piece('white', 'pawn'))
             for col in ['b', 'd', 'f', 'h']:
-                self.get_field(col, row).set_Piece(Piece('black', 'pawn'))
-        for col in ['a', 'c', 'e', 'g']:
-            self.get_field(col, 7).set_Piece(Piece('black', 'pawn'))
+                self.get_field(col, 2).set_Piece(Piece('white', 'pawn'))
+
+            # black pieces
+            for row in [6, 8]:
+                for col in ['b', 'd', 'f', 'h']:
+                    self.get_field(col, row).set_Piece(Piece('black', 'pawn'))
+            for col in ['a', 'c', 'e', 'g']:
+                self.get_field(col, 7).set_Piece(Piece('black', 'pawn'))
+        else:
+            for (col, row, piece_color, piece_type) in scenario:
+                field = self.get_field(col, row)
+                assert field is not None
+                assert field.get_Piece() is None
+                field.set_Piece(Piece(piece_color,piece_type))
+
 
     def get_field(self, col, row):
         return self.board[(col, row)]
