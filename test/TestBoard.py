@@ -192,3 +192,10 @@ class TestBoard:
 
         assert board.is_valid_move(0, 'f', 1, 'h', 3) == (1, board.get_field('g', 2))
         assert board.is_valid_move(1, 'e', 5, 'b', 2) == (1, board.get_field('c', 3))
+
+    @pytest.mark.parametrize("current_player, source_col, source_row, target_col, target_row",
+                             [(0, 'a', 12, 'b', 2), (0, 'q', 3, 'b', 2), (1, 'a', 3, 'y', 2), (1, 'h', 6, 'b', -12),
+                              (2, 'a',3, 'b', 4), (-5, 'b', 6,'a', 5)
+                              ])
+    def test_is_valid_move_input(self, current_player, source_col, source_row, target_col, target_row):
+        assert self.board.is_valid_move(current_player, source_col, source_row, target_col, target_row) == (-1, None)
