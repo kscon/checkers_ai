@@ -1,9 +1,6 @@
 import pytest
 
 from core.Board import *
-from core.Field import *
-from core.Piece import *
-
 
 class TestBoard:
     board = Board()

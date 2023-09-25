@@ -1,6 +1,5 @@
 import pytest
 
-from core.Piece import *
 from core.Field import *
 
 @pytest.mark.parametrize('col, row, expected_col, expected_row',
