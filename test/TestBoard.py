@@ -170,12 +170,45 @@ class TestBoard:
                               (0, 'b', 7, 'a', 8, (1, None)),  # b7 pawn
                               (0, 'f', 1, 'g', 2, (-1, None)), (0, 'f', 1, 'e', 2, (1, None)),
                               (1, 'f', 1, 'g', 2, (-1, None)),  # f1 pawn
-                              (1, 'e', 5, 'c', 8, (1, None)), (1, 'e', 5, 'c', 3, (-1, None)),  # e5 queen
-                              (1, 'e', 5, 'c', 8, (1, None)), (0, 'e', 5, 'c', 8, (-1, None)),
+                              (1, 'e', 5, 'c', 8, (1, None)), (1, 'e', 5, 'c', 3, (-1, None)),(1, 'e', 5, 'g', 7, (-1, None)),  # e5 queen
+                              (1, 'e', 5, 'c', 8, (1, None)), (0, 'e', 5, 'c', 8, (-1, None)),(1, 'e', 5, 'h', 8, (-1, None)),
+                              (1, 'e', 5, 'f', 6, (-1, None)),
                               (1, 'g', 2, 'h', 1, (1, None)), (1, 'g', 2, 'f', 1, (-1, None)), (1, 'g', 2, 'h', 3, (-1, None)), # g2 pawn
                               (0, 'g', 2, 'h', 1, (-1, None))
                               ])
     def test_is_valid_move(self, scenario, current_player, source_col, source_row, target_col, target_row,
+                           expected_output):
+        board = Board(scenario)
+        output = board.is_valid_move(current_player, source_col, source_row, target_col, target_row)
+        assert output == expected_output
+
+    # 8| | | | | | | | |
+    # 7| | | | | | | | |
+    # 6| | | | | |b| | |
+    # 5| | | | |B| | | |
+    # 4| | | | | | | | |
+    # 3| | |W| | | | | |
+    # 2| |w| | | | | | |
+    # 1| | | | | | | | |
+    #   a b c d e f g h
+    @pytest.mark.parametrize("scenario", [[('b', 2, 'white', 'pawn'),
+                                           ('c', 3, 'white', 'queen'),
+                                           ('e', 5, 'black', 'queen'),
+                                           ('f', 6, 'black', 'pawn')]])
+    @pytest.mark.parametrize("current_player, source_col, source_row, target_col, target_row, expected_output",
+                             [(0, 'b', 2, 'd', 4, (-1, None)), (0, 'b', 2, 'g', 7, (-1, None)),  # b2 pawn
+                              (0, 'b', 2, 'f', 6, (-1, None)),
+                              (0, 'c', 3, 'd', 4, (1, None)), (0, 'c', 3, 'e', 5, (-1, None)),# c3 queen
+                              (0, 'c', 3, 'f', 6, (-1, None)),(0, 'c', 3, 'a', 1, (-1, None)),
+                              (0, 'c', 3, 'g', 7, (-1, None)), (0, 'c', 3, 'h', 8, (-1, None)),
+                              (1, 'e', 5, 'd', 4, (1, None)), (1, 'e', 5, 'c', 3, (-1, None)), # e5 queen
+                              (1, 'e', 5, 'b', 2, (-1, None)), (1, 'e', 5, 'a', 1, (-1, None)),
+                              (1, 'e', 5, 'h', 8, (-1, None)),
+                              (1, 'e', 5, 'h', 8, (-1, None)),
+                              (1, 'f', 6, 'd', 4, (-1, None)), (1, 'f', 6, 'a', 1, (-1, None)),# f6 pawn
+                              (1, 'f', 6, 'b', 2, (-1, None))
+                              ])
+    def test_is_valid_move_scenario_2(self, scenario, current_player, source_col, source_row, target_col, target_row,
                            expected_output):
         board = Board(scenario)
         output = board.is_valid_move(current_player, source_col, source_row, target_col, target_row)
@@ -199,3 +232,43 @@ class TestBoard:
                               ])
     def test_is_valid_move_input(self, current_player, source_col, source_row, target_col, target_row):
         assert self.board.is_valid_move(current_player, source_col, source_row, target_col, target_row) == (-1, None)
+
+    @pytest.mark.parametrize("scenario", [[('a', 1, 'white', 'pawn'),
+                                           ('b', 7, 'white', 'pawn'),
+                                           ('c', 3, 'white', 'queen'),
+                                           ('e', 5, 'black', 'queen'),
+                                           ('f', 1, 'white', 'pawn'),
+                                           ('f', 6, 'black', 'pawn'),
+                                           ('g', 2, 'black', 'pawn')]])
+    @pytest.mark.parametrize("current_player, source_field, target_field, expected_output",
+                             [(0, 'a1', 'b2', 1), (0, 'a1', 'd4', -1),  # a1 pawn
+                              (0, 'c3', 'b2', 1,), (0, 'c3', 'a5', 1),
+                              (0, 'c3', 'e1', 1,),  # c3 queen
+                              (0, 'c3', 'e5', -1), (0, 'c3', 'f6', -1),
+                              (0, 'c3', 'g7', -1),
+                              (0, 'b7', 'a8', 1),  # b7 pawn
+                              (0, 'f1', 'g2', -1), (0, 'f1', 'e2', 1),
+                              (1, 'f1', 'g2', -1),  # f1 pawn
+                              (1, 'e5', 'c8', 1), (1, 'e5', 'c3', -1),  # e5 queen
+                              (1, 'e5', 'c8', 1), (0, 'e5', 'c8', -1),
+                              (1, 'g2', 'h1', 1), (1, 'g2', 'f1', -1),
+                              (1, 'g2', 'h3', -1),  # g2 pawn
+                              (0, 'g2', 'h1', -1)
+                              ])
+    def test_try_move(self, scenario, current_player, source_field, target_field, expected_output):
+        board = Board(scenario)
+        output = board.try_move(current_player, source_field, target_field)
+        assert output == expected_output
+
+    # @pytest.mark.parametrize("scenario", [[('a', 1, 'white', 'pawn'),
+    #                                        ('b', 7, 'white', 'pawn'),
+    #                                        ('c', 3, 'white', 'queen'),
+    #                                        ('e', 5, 'black', 'queen'),
+    #                                        ('f', 1, 'white', 'pawn'),
+    #                                        ('f', 6, 'black', 'pawn'),
+    #                                        ('g', 2, 'black', 'pawn')]])
+    # def test_debug(self, scenario):
+    #     board = Board(scenario)
+    #     output = board.is_valid_move(1,'e',5,'g',7)
+    #     assert output[0] == 1
+    #     assert output[1] is board.get_field('f',6)

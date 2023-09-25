@@ -215,6 +215,9 @@ class Board:
             for (c, r) in zip(col_jumped, row_jumped):
                 if abs(c - col_index_target) == 1 and self.get_field_by_index(c, r).get_Piece() is not None:
                     checked_field = self.get_field_by_index(c, r)
+                    if  (checked_field.get_Piece().get_player_color() == 'white' and current_player == 0) or \
+                            (checked_field.get_Piece().get_player_color() == 'black' and current_player == 1):
+                        return -1, None
                 elif self.get_field_by_index(c, r).get_Piece() is not None:
                     return -1, None
             return 1, checked_field
