@@ -1,7 +1,7 @@
 import unittest
 
 from core.GameDriver import GameDriver
-from core.Board import Board, is_valid_move
+from core.Board import Board
 
 
 # todo: automate testing
