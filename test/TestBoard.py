@@ -334,4 +334,27 @@ class TestBoard:
             board.current_player = 1
         output = board.make_move(current_player, source_col + str(source_row), target_col + str(target_row))
         assert output == expected_output
-        # TODO: make check for tree
+
+    # TODO: check for tree validity for a whole game
+    @pytest.mark.parametrize("steps",
+                             [[(0, 'a', 3, 'b', 4, None), # full game
+
+                              ]])
+    def test_board_tree_validity(self, steps):
+        move_log = []
+        current_player_test = 0
+        checked_pieces = []
+        turn = 0
+
+        for (current_player, source_col, source_row, target_col, target_row, expected_output) in steps:
+
+            assert self.board.is_valid_move(current_player, source_col, source_row, target_col, target_row)[0] == 1
+            self.board.make_move(current_player,source_col + str(source_row), target_col + str(target_row))
+
+            move_log += source_col + str(source_row) + target_col + str(target_row)
+            current_player_test = (current_player_test + 1) % 2
+            # TODO: continue here
+
+
+        print(self.board.board_to_string())
+
