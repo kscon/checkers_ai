@@ -1,5 +1,5 @@
 > [!NOTE]
-> This project is still in development, and since it is a personal fun project, it might not be finished any time soon. But what it should be in the future can be read down below:
+> This project is still in development, and since it is a personal fun project, it (or its documentation) might not be finished any time soon. But what it should be in the future can be read down below:
 
 # Checkers Ai
 
