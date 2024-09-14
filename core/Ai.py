@@ -5,7 +5,7 @@ from core.Board import Board
 
 class Ai:
     color = 0  # white=0, black=1
-    method = 'minmax'
+    method = 'random'
     # gd = None
     game_board = None
     depth = None

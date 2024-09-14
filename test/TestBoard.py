@@ -337,24 +337,48 @@ class TestBoard:
 
     # TODO: check for tree validity for a whole game
     @pytest.mark.parametrize("steps",
-                             [[(0, 'a', 3, 'b', 4, None), # full game
-
-                              ]])
+                             [[(0, 'a', 3, 'b', 4, None),  # first 16 moves
+                               (1, 'b', 6, 'c', 5, None),
+                               (0, 'b', 2, 'a', 3, None),
+                               (1, 'f', 6, 'g', 5, None),
+                               (0, 'e', 3, 'f', 4, None),
+                               (1, 'c', 7, 'b', 6, None),
+                               (0, 'f', 2, 'e', 3, None),
+                               (1, 'e', 7, 'f', 6, None),
+                               (0, 'g', 3, 'h', 4, None),
+                               (1, 'b', 6, 'a', 5, None),
+                               (0, 'h', 2, 'g', 3, None),
+                               (1, 'c', 5, 'd', 4, None),
+                               (0, 'c', 3, 'e', 5, None),  # piece on d4 taken
+                               (1, 'a', 5, 'c', 3, None),  # piece on b4 taken
+                               (0, 'd', 2, 'b', 4, None),  # piece on c3 taken
+                               (1, 'b', 8, 'c', 7, None),
+                               ]])
     def test_board_tree_validity(self, steps):
-        move_log = []
-        current_player_test = 0
-        checked_pieces = []
-        turn = 0
+        board = Board()
 
         for (current_player, source_col, source_row, target_col, target_row, expected_output) in steps:
+            assert board.is_valid_move(current_player, source_col, source_row, target_col, target_row)[0] == 1
+            board.make_move(current_player, source_col + str(source_row), target_col + str(target_row))
 
-            assert self.board.is_valid_move(current_player, source_col, source_row, target_col, target_row)[0] == 1
-            self.board.make_move(current_player,source_col + str(source_row), target_col + str(target_row))
-
-            move_log += source_col + str(source_row) + target_col + str(target_row)
-            current_player_test = (current_player_test + 1) % 2
-            # TODO: continue here
-
-
+        node = board.board_history.get_node(board.current_node_id)
+        assert node.data.current_player == 0
+        assert node.data.move_log == ['a3b4', 'b6c5',
+                                      'b2a3', 'f6g5',
+                                      'e3f4', 'c7b6',
+                                      'f2e3', 'e7f6',
+                                      'g3h4', 'b6a5',
+                                      'h2g3', 'c5d4',
+                                      'c3e5', 'a5c3',
+                                      'd2b4', 'b8c7']
+        assert node.data.turn == 16
+        assert node.data.checked_pieces == {1: (),
+                                            2: (), 3: (),
+                                            4: (), 5: (),
+                                            6: (), 7: (),
+                                            8: (), 9: (),
+                                            10: (), 11: (), 12: (),
+                                            13: ('b', 'd4'), 14: ('w', 'b4'),
+                                            15: ('b', 'c3'), 16: ()
+                                            }
         print(self.board.board_to_string())
-
